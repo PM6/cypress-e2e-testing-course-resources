@@ -25,19 +25,19 @@ describe('contact form', () => {
             expect(el.text()).to.not.equal('Sending...');
         });
         cy.get('[data-cy="contact-input-message"]').focus().blur();
-        cy.get('[data-cy="contact-input-message"]').parent().then(el => {
-            expect(el.attr('class')).to.contain('invalid');
-        });
+        cy.get('[data-cy="contact-input-message"]').parent()
+            .should('have.attr', 'class')
+            .and('match', /invalid/)
 
         cy.get('[data-cy="contact-input-name"]').focus().blur();
-        cy.get('[data-cy="contact-input-name"]').parent().then(el => {
-            expect(el.attr('class')).to.contain('invalid');
-        });
+        cy.get('[data-cy="contact-input-name"]').parent()
+            .should('have.attr', 'class')
+            .and('match', /invalid/)
 
         cy.get('[data-cy="contact-input-email"]').focus().blur();
-        cy.get('[data-cy="contact-input-email"]').parent().then(el => {
-            expect(el.attr('class')).to.contain('invalid');
-        });
+        cy.get('[data-cy="contact-input-email"]').parent()
+            .should('have.attr', 'class')
+            .and('match', /invalid/)
         
     });
 });
