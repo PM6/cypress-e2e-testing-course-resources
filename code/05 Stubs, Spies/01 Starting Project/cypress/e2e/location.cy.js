@@ -15,6 +15,8 @@ describe('share location', () => {
       });
       cy.stub(win.navigator.clipboard, 'writeText').as('saveToClipboard')
         .resolves();
+      cy.spy(win.localStorage, 'setItem').as('storeLocation');
+      cy.spy(win.localStorage, 'getItem').as('getStoredLocation');
     });
   });
 
@@ -34,6 +36,11 @@ describe('share location', () => {
       const { latitude, longitude } = fakePosition.coords;
       cy.get('@saveToClipboard').should('have.been.calledWithMatch', 
         new RegExp(`${latitude}.*${longitude}.*${encodeURI('John Doe')}`));
+      cy.get('@getStoredLocation').should('have.been.calledWithMatch',
+        /John Doe/,
+        new RegExp(`${latitude}.*${longitude}.*${encodeURI('John Doe')}`));
     });
+    cy.get('[data-cy="share-loc-btn"]').click();
+    cy.get('@getStoredLocation').should('have.been.called');
   });
 });
